@@ -24,7 +24,7 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
         )
         val result = Yaml.default.encodeToString(FilterProperties.serializer(), filterProperties)
         file.writeText(result)
-//        println(file.readText())
+
 
         return listOf()
     }
