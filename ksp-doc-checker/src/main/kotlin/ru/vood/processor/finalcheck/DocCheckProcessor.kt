@@ -8,7 +8,7 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 import ru.vood.processor.finalcheck.base.BaseSymbolProcessor
 
-class FinalCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolProcessor(environment) {
+class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolProcessor(environment) {
 
     private val requiredModifiersParamName = "requiredModifiers"
     private val prohibitedModifiersParamName = "prohibitedModifiers"
