@@ -3,6 +3,7 @@ package ru.vood.ksp.doccheck
 import com.charleskorn.kaml.Yaml
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
+import com.google.devtools.ksp.processing.impl.ResolverImpl
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.Modifier
 import ru.vood.ksp.doccheck.base.BaseSymbolProcessor
@@ -16,19 +17,42 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
         // вычитка внешних настроек
-        val file = File("/home/vood/IdeaProjects/ksp-doc-checker/testApp/DocCheckProcessor.yml.example")
-        val createNewFile = file.createNewFile()
-        val filterProperties = FilterProperties(
-            mapOf(
-                FilterName("first") to FilterProperty()
-            )
-        )
-        val result = Yaml.default.encodeToString(FilterProperties.serializer(), filterProperties)
-        file.writeText(result)
+        val resolverImpl = resolver as ResolverImpl
+        val propertyFileName = filenameResolver(resolverImpl, "DocCheckProcessor.yml")
+        val exampleFileName = createExample(resolverImpl)
+        try {
+
+            val readText =
+                File(propertyFileName).readText()
+        } catch (e: Throwable) {
+            kspLogger.error("Not Found $propertyFileName for example see $exampleFileName")
+        }
+
+
+
 
 
         return listOf()
     }
+
+    private fun createExample(resolverImpl: ResolverImpl): String {
+        val propertyExampleFileName = "DocCheckProcessor.yml.example"
+        val exampleFilenameResolver = filenameResolver(resolverImpl, propertyExampleFileName)
+        val exampleFile = File(exampleFilenameResolver)
+        exampleFile.createNewFile()
+        val filterProperties = FilterProperties(
+            mapOf(
+                FilterName("firstFilter") to FilterProperty(),
+                FilterName("secondFilter") to FilterProperty()
+            )
+        )
+        val result = Yaml.default.encodeToString(FilterProperties.serializer(), filterProperties)
+        exampleFile.writeText(result)
+        return exampleFilenameResolver
+    }
+
+    private fun filenameResolver(resolverImpl: ResolverImpl, s: String) =
+        resolverImpl.options.projectBaseDir.absolutePath + File.separator + s
 
     private fun check(
         requiredModifiers: List<Modifier>,

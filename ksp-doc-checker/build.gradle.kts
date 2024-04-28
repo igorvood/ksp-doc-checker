@@ -29,7 +29,7 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.52.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 
-    testImplementation("com.google.devtools.ksp:symbol-processing:$kspVersion")
+    implementation("com.google.devtools.ksp:symbol-processing:$kspVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiter")
     testImplementation("io.mockk:mockk:$ioMockk")
     testImplementation("com.github.tschuchortdev:kotlin-compile-testing:$kotlinCompileTesting")
