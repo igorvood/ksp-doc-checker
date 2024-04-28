@@ -11,7 +11,7 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
         // вычитка внешних настроек
-        val file = File("/home/vood/IdeaProjects/ksp-doc-checker/testApp/DocCheckProcessor.yml")
+        val file = File("/home/vood/IdeaProjects/ksp-doc-checker/testApp/DocCheckProcessor.yml.example")
         val createNewFile = file.createNewFile()
         file.writeText("Asdasdasd")
 //        println(file.readText())
