@@ -21,16 +21,15 @@ dependencies {
 //    implementation("com.squareup:kotlinpoet-ksp:1.12.0")
 
 
-
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-    implementation("com.google.devtools.ksp:symbol-processing:$kspVersion")
-    implementation("com.squareup:kotlinpoet:1.12.0")
 
-    implementation("com.squareup:kotlinpoet-ksp:1.12.0")
-    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+//    implementation("com.squareup:kotlinpoet:1.12.0")
+
+//    implementation("com.squareup:kotlinpoet-ksp:1.12.0")
     implementation("com.charleskorn.kaml:kaml:0.52.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 
+    testImplementation("com.google.devtools.ksp:symbol-processing:$kspVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiter")
     testImplementation("io.mockk:mockk:$ioMockk")
     testImplementation("com.github.tschuchortdev:kotlin-compile-testing:$kotlinCompileTesting")
@@ -45,6 +44,14 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+kotlin {
+//    sourceSets.main {
+//        kotlin.srcDir("build/generated/ksp/main/kotlin")
+//    }
+    sourceSets.test {
+        kotlin.srcDir("src/test/kotlin")
+    }
+}
 
 publishing{
     publications{

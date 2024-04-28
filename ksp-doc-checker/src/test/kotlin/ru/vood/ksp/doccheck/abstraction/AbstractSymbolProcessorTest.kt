@@ -35,7 +35,7 @@ abstract class AbstractSymbolProcessorTest {
         Files.createDirectories(path)
     }
 
-    @AfterEach
+//    @AfterEach
     fun afterEach() {
         if (this::compileResult.isInitialized) {
             compileResult.classLoader.close()
