@@ -25,7 +25,7 @@ pluginManagement {
 
 
 include(":ksp-doc-checker")
-//include(":testApp")
+include(":testApp")
 //include(":workload")
 
 
