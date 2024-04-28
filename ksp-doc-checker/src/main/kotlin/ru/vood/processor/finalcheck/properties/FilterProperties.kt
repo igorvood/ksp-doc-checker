@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FilterProperties(
-    val filters: List<FilterProperty>
+    val filters: Map<FilterName, FilterProperty>
 )
 
 

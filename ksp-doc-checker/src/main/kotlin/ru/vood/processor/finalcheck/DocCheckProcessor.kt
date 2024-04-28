@@ -18,8 +18,8 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
         val file = File("/home/vood/IdeaProjects/ksp-doc-checker/testApp/DocCheckProcessor.yml.example")
         val createNewFile = file.createNewFile()
         val filterProperties = FilterProperties(
-            listOf(
-                FilterProperty(FilterName("first"))
+            mapOf(
+                FilterName("first") to FilterProperty()
             )
         )
         val result = Yaml.default.encodeToString(FilterProperties.serializer(), filterProperties)
