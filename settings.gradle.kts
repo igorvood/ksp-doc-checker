@@ -10,10 +10,12 @@
 pluginManagement {
     val kotlinVersion: String by settings
     val kspVersion: String by settings
+    val kotlinSerialization: String by settings
 
     plugins {
         id("com.google.devtools.ksp") version kspVersion
         kotlin("jvm") version kotlinVersion
+        kotlin("plugin.serialization") version kotlinSerialization
     }
 
     repositories {

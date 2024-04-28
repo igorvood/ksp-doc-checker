@@ -174,6 +174,7 @@ abstract class AbstractSymbolProcessorTest {
             inheritClassPath = true
             verbose = false
             reportPerformance = true
+            singleModule = true
         }
         val result = compilation.compile()
         val messages = result.messages.split("\n")

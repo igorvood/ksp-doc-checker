@@ -7,7 +7,7 @@ val kotlinVersion: String by project
 plugins {
     kotlin("jvm")
     `maven-publish`
-    kotlin("plugin.serialization") version "1.7.21"
+    kotlin("plugin.serialization")
 //    id("maven-publish")
 }
 
