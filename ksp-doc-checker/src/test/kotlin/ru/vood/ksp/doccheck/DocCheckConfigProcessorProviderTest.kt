@@ -1,4 +1,4 @@
-package ru.vood.ksp.finalcheck
+package ru.vood.ksp.doccheck
 
 import org.junit.jupiter.api.Test
 

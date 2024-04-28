@@ -1,4 +1,4 @@
-package ru.vood.processor.finalcheck
+package ru.vood.ksp.doccheck
 
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment

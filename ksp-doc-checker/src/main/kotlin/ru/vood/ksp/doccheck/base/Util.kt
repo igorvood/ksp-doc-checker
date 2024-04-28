@@ -1,4 +1,4 @@
-package ru.vood.processor.finalcheck.base
+package ru.vood.ksp.doccheck.base
 
 import java.io.OutputStreamWriter
 import java.io.Writer

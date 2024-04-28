@@ -1,14 +1,15 @@
-package ru.vood.processor.finalcheck
+package ru.vood.ksp.doccheck
 
 import com.charleskorn.kaml.Yaml
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.Modifier
-import ru.vood.processor.finalcheck.base.BaseSymbolProcessor
-import ru.vood.processor.finalcheck.properties.FilterName
-import ru.vood.processor.finalcheck.properties.FilterProperties
-import ru.vood.processor.finalcheck.properties.FilterProperty
+import ru.vood.ksp.doccheck.base.BaseSymbolProcessor
+
+import ru.vood.ksp.doccheck.properties.FilterName
+import ru.vood.ksp.doccheck.properties.FilterProperties
+import ru.vood.ksp.doccheck.properties.FilterProperty
 import java.io.File
 
 class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolProcessor(environment) {

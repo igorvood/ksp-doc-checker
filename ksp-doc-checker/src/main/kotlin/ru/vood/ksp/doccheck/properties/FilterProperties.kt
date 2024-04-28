@@ -1,4 +1,4 @@
-package ru.vood.processor.finalcheck.properties
+package ru.vood.ksp.doccheck.properties
 
 import kotlinx.serialization.Serializable
 
