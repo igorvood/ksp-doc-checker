@@ -1,10 +1,14 @@
 package ru.vood.processor.finalcheck
 
+import com.charleskorn.kaml.Yaml
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.Modifier
 import ru.vood.processor.finalcheck.base.BaseSymbolProcessor
+import ru.vood.processor.finalcheck.properties.FilterName
+import ru.vood.processor.finalcheck.properties.FilterProperties
+import ru.vood.processor.finalcheck.properties.FilterProperty
 import java.io.File
 
 class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolProcessor(environment) {
@@ -13,7 +17,13 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
         // вычитка внешних настроек
         val file = File("/home/vood/IdeaProjects/ksp-doc-checker/testApp/DocCheckProcessor.yml.example")
         val createNewFile = file.createNewFile()
-        file.writeText("Asdasdasd")
+        val filterProperties = FilterProperties(
+            listOf(
+                FilterProperty(FilterName("first"))
+            )
+        )
+        val result = Yaml.default.encodeToString(FilterProperties.serializer(), filterProperties)
+        file.writeText(result)
 //        println(file.readText())
 
         return listOf()

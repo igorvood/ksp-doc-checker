@@ -3,7 +3,7 @@ val kspVersion: String by project
 plugins {
     kotlin("jvm")
     `maven-publish`
-    kotlin("plugin.serialization") version "1.4.20"
+    kotlin("plugin.serialization") version "1.7.21"
 //    id("maven-publish")
 }
 
@@ -25,6 +25,7 @@ dependencies {
     implementation("com.squareup:kotlinpoet-ksp:1.12.0")
     implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     implementation("com.charleskorn.kaml:kaml:0.52.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 //    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 //    testImplementation("io.mockk:mockk:1.12.1")
 //    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.9")
@@ -34,6 +35,11 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 
 publishing{
     publications{
