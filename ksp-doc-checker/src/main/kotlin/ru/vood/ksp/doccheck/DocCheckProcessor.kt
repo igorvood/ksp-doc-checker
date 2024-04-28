@@ -4,10 +4,8 @@ import com.charleskorn.kaml.Yaml
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.impl.ResolverImpl
-import com.google.devtools.ksp.symbol.KSAnnotated
-import com.google.devtools.ksp.symbol.Modifier
+import com.google.devtools.ksp.symbol.*
 import ru.vood.ksp.doccheck.base.BaseSymbolProcessor
-
 import ru.vood.ksp.doccheck.properties.FilterName
 import ru.vood.ksp.doccheck.properties.FilterProperties
 import ru.vood.ksp.doccheck.properties.FilterProperty
@@ -20,19 +18,50 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
         val resolverImpl = resolver as ResolverImpl
         val propertyFileName = filenameResolver(resolverImpl, "DocCheckProcessor.yml")
         val exampleFileName = createExample(resolverImpl)
+        var filterProperties: FilterProperties? = null
         try {
+            filterProperties = File(propertyFileName).readText()
+                .let { Yaml.default.decodeFromString(FilterProperties.serializer(), it) }
 
-            val readText =
-                File(propertyFileName).readText()
         } catch (e: Throwable) {
             kspLogger.error("Not Found $propertyFileName for example see $exampleFileName")
         }
+        // подготовка проверок
+        val filters = prepareCheckFunction(filterProperties?.filters ?: mapOf())
 
+        val flatMap = resolver.getNewFiles()
+            .forEach { ksFile ->
+                filters.forEach {cf->
+                    cf.checkRun(ksFile, kspLogger)
+                }
+
+            }
 
 
 
 
         return listOf()
+    }
+
+    private fun prepareCheckFunction(map: Map<FilterName, FilterProperty>): List<CheckFun> {
+        val flatMap: List<CheckFun> = map.entries
+            .flatMap { me ->
+                val filterProperty = me.value
+                val filterName = me.key
+                val funv = mutableListOf<CheckFun>()
+                if (filterProperty.dataClasses) {
+                    val asd: (KSFile) -> List<KSNode> = { KSFile ->
+                        KSFile.declarations.filterIsInstance<KSClassDeclaration>()
+//                            .filter { it.classKind == ClassKind.CLASS }
+                            .filter { it.docString==null }
+                            .toList()
+                    }
+                    funv.add(CheckFun(filterName, "Data class check", asd))
+                }
+
+                funv
+            }
+        return flatMap
     }
 
     private fun createExample(resolverImpl: ResolverImpl): String {

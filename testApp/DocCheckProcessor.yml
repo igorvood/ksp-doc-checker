@@ -1,5 +1,5 @@
 filters:
   "firstFilter":
-    dataClasses: false
+    dataClasses: true
   "secondFilter":
     dataClasses: false
