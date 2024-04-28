@@ -5,11 +5,16 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.Modifier
 import ru.vood.processor.finalcheck.base.BaseSymbolProcessor
+import java.io.File
 
 class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolProcessor(environment) {
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
         // вычитка внешних настроек
+        val file = File("/home/vood/IdeaProjects/ksp-doc-checker/testApp/DocCheckProcessor.yml")
+        val createNewFile = file.createNewFile()
+        file.writeText("Asdasdasd")
+//        println(file.readText())
 
         return listOf()
     }
