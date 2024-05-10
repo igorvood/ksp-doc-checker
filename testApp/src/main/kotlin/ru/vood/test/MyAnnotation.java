@@ -6,5 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+/** asdASD
+ * */
 public @interface MyAnnotation {
 }
