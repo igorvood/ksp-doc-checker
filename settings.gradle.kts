@@ -28,6 +28,7 @@ pluginManagement {
 
 include(":ksp-doc-checker")
 include(":testApp")
+//include(":symbol-processor-common")
 //include(":workload")
 
 
