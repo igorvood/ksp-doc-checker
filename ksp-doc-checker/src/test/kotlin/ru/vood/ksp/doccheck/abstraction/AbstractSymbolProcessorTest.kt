@@ -71,10 +71,9 @@ abstract class AbstractSymbolProcessorTest {
 //            """.trimIndent()
 //    }
 
-    protected fun compile(
-        processors: List<SymbolProcessorProvider>,
-        kaptArgsMap: Map<OptionName, OptionValue>,
-        @Language("kotlin") vararg sources: String,
+     fun compile(
+         processors: List<SymbolProcessorProvider>,
+         @Language("kotlin") vararg sources: String,
     ): CompileResult {
         val testPackage = testPackage()
         val testClass: Class<*> = testInfo.testClass.get()
@@ -114,7 +113,7 @@ abstract class AbstractSymbolProcessorTest {
                     SourceFile.kotlin(fileName.replace("build/in-test-generated-ksp/sources/", ""), s)
                 }
                 .toList()
-        return this.symbolProcessFiles(sourceList, processors, kaptArgsMap)
+        return this.symbolProcessFiles(sourceList, processors)
 
     }
 
@@ -167,10 +166,8 @@ abstract class AbstractSymbolProcessorTest {
     protected fun symbolProcessFiles(
         srcFiles: List<SourceFile>,
         annotationProcessorProviders: List<SymbolProcessorProvider>,
-        kaptArgsMap: Map<OptionName, OptionValue>
     ): CompileResult {
         val compilation = KotlinCompilation().apply {
-            kaptArgs = kaptArgsMap.toMutableMap()
             jvmDefault = "all"
             jvmTarget = "17"
             workingDir = Path.of("build/in-test-generated-ksp").toAbsolutePath().toFile()

@@ -14,7 +14,7 @@ symbolProcessors, sourceList
 ) {
 
     @BeforeEach
-    fun beforeEach(){
+    fun beforeEach11(){
 
         val copyFile = this::class.java.copyFile(
             "DocCheckProcessor.yml",

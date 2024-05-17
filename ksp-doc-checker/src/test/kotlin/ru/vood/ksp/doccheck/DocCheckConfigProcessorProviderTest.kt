@@ -21,7 +21,7 @@ class DocCheckConfigProcessorProviderTest:
 
     @Test
     fun create() {
-      kotlin.runCatching { compile(mapOf(propFilePath to "kspsssssss/DocCheckProcessor.yml")) }
+      kotlin.runCatching { compile() }
           .map { error("test must fail ") }
 
         val messages = compileResult.messages
