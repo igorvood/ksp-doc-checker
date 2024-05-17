@@ -2,6 +2,8 @@ package ru.vood.ksp.doccheck.abstraction
 
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.tschuchort.compiletesting.KotlinCompilation
+import com.tschuchort.compiletesting.OptionName
+import com.tschuchort.compiletesting.OptionValue
 import com.tschuchort.compiletesting.SourceFile
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.AfterEach
@@ -71,6 +73,7 @@ abstract class AbstractSymbolProcessorTest {
 
     protected fun compile(
         processors: List<SymbolProcessorProvider>,
+        kaptArgsMap: Map<OptionName, OptionValue>,
         @Language("kotlin") vararg sources: String,
     ): CompileResult {
         val testPackage = testPackage()
@@ -111,7 +114,7 @@ abstract class AbstractSymbolProcessorTest {
                     SourceFile.kotlin(fileName.replace("build/in-test-generated-ksp/sources/", ""), s)
                 }
                 .toList()
-        return this.symbolProcessFiles(sourceList, processors)
+        return this.symbolProcessFiles(sourceList, processors, kaptArgsMap)
 
     }
 
@@ -164,8 +167,10 @@ abstract class AbstractSymbolProcessorTest {
     protected fun symbolProcessFiles(
         srcFiles: List<SourceFile>,
         annotationProcessorProviders: List<SymbolProcessorProvider>,
+        kaptArgsMap: Map<OptionName, OptionValue>
     ): CompileResult {
         val compilation = KotlinCompilation().apply {
+            kaptArgs = kaptArgsMap.toMutableMap()
             jvmDefault = "all"
             jvmTarget = "17"
             workingDir = Path.of("build/in-test-generated-ksp").toAbsolutePath().toFile()

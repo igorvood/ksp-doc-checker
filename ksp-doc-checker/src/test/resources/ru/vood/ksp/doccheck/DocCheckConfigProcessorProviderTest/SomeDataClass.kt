@@ -1,3 +1,5 @@
+import java.time.Instant
+
 data class SomeDataClass(
-    val s: String
+    val s: Instant
 )

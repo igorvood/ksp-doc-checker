@@ -1,6 +1,9 @@
 package ru.vood.ksp.doccheck.abstraction
 
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
+import com.tschuchort.compiletesting.OptionName
+import com.tschuchort.compiletesting.OptionValue
+import ru.vood.ksp.doccheck.DocCheckProcessor.Companion.propFilePath
 import ru.vood.ksp.doccheck.abstraction.util.readFile
 
 
@@ -15,12 +18,12 @@ abstract class AbstractKoraAppProcessorTest(
 //        """.trimIndent()
 
 
-    protected fun compile()/*: ApplicationGraphDraw*/ {
+    protected fun compile(kaptArgsMap: Map<OptionName, OptionValue>,)/*: ApplicationGraphDraw*/ {
         val sources = sourceList.map {
             this::class.java.readFile(it)
         }.toTypedArray()
 
-        val compileResult = compile(symbolProcessors, *sources)
+        val compileResult = compile(symbolProcessors, kaptArgsMap, *sources)
         if (compileResult.isFailed()) {
             throw compileResult.compilationException()
         }

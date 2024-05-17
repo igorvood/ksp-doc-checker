@@ -13,7 +13,7 @@ import java.io.StringWriter
 
 private const val debug = false
 
-abstract class BaseSymbolProcessor(protected val environment: SymbolProcessorEnvironment) : SymbolProcessor {
+abstract class BaseSymbolProcessor( val environment: SymbolProcessorEnvironment) : SymbolProcessor {
 
 
     val kspLogger: KSPLogger = if (!debug) environment.logger else object : KSPLogger {

@@ -14,20 +14,8 @@ import java.io.File
 class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolProcessor(environment) {
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
-        // вычитка внешних настроек
-        val resolverImpl = resolver as ResolverImpl
-        val propertyFileName = filenameResolver(resolverImpl, "DocCheckProcessor.yml")
-        val exampleFileName = createExample(resolverImpl)
-        var filterProperties: FilterProperties? = null
-        try {
-            filterProperties = File(propertyFileName).readText()
-                .let { Yaml.default.decodeFromString(FilterProperties.serializer(), it) }
+        val filters: List<CheckFun> = checkFuns(resolver)
 
-        } catch (e: Throwable) {
-            kspLogger.error("Not Found $propertyFileName for example see $exampleFileName")
-        }
-        // подготовка проверок
-        val filters = prepareCheckFunction(filterProperties?.filters ?: mapOf())
 
         val flatMap = resolver.getNewFiles()
             .forEach { ksFile ->
@@ -37,10 +25,25 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
 
             }
 
-
-
-
         return listOf()
+    }
+
+    private fun checkFuns(resolver: Resolver): List<CheckFun> {
+        // вычитка внешних настроек
+        val fileName = environment.options[propFilePath]
+        val propertyFileName = filenameResolver(resolver, fileName)
+        val exampleFileName = createExample(resolver)
+        var filterProperties: FilterProperties? = null
+        try {
+            filterProperties = File(propertyFileName).readText()
+                .let { Yaml.default.decodeFromString(FilterProperties.serializer(), it) }
+
+        } catch (e: Throwable) {
+            kspLogger.error("Not Found $propertyFileName for example see $exampleFileName")
+        }
+        // подготовка проверок
+        val filters: List<CheckFun> = prepareCheckFunction(filterProperties?.filters ?: mapOf())
+        return filters
     }
 
     private fun prepareCheckFunction(map: Map<FilterName, FilterProperty>): List<CheckFun> {
@@ -64,7 +67,8 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
         return flatMap
     }
 
-    private fun createExample(resolverImpl: ResolverImpl): String {
+    private fun createExample(resolver: Resolver): String {
+        val resolverImpl = resolver as ResolverImpl
         val propertyExampleFileName = "DocCheckProcessor.yml.example"
         val exampleFilenameResolver = filenameResolver(resolverImpl, propertyExampleFileName)
         val exampleFile = File(exampleFilenameResolver)
@@ -80,8 +84,11 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
         return exampleFilenameResolver
     }
 
-    private fun filenameResolver(resolverImpl: ResolverImpl, s: String) =
-        resolverImpl.options.projectBaseDir.absolutePath + File.separator + s
+    private fun filenameResolver(resolver: Resolver, fileName: String?): String {
+        val resolverImpl = resolver as ResolverImpl
+        val finalFileName = fileName ?: "DocCheckProcessor.yml"
+        return resolverImpl.options.projectBaseDir.absolutePath + File.separator + finalFileName
+    }
 
     private fun check(
         requiredModifiers: List<Modifier>,
@@ -120,5 +127,9 @@ class DocCheckProcessor(environment: SymbolProcessorEnvironment) : BaseSymbolPro
                 .filter { param -> param.isNotEmpty() }
                 .map { paramStr -> extractor(paramStr) }
         } ?: listOf()
+    }
+
+    companion object{
+        val propFilePath = "propFilePath"
     }
 }
